@@ -1,7 +1,7 @@
 {
   "project": "Express",
   "outerHost": "express-website--adobe.hlx.live",
-  "host": "www.adobe.com",
+  "host": "https://main--frank_pfizer_vid--cklein08.hlx.live",
   "byocdn": true,
   "pushDownSelector": "#feds-header",
   "plugins": [

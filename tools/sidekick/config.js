@@ -13,9 +13,9 @@
 // This file contains the project-specific configuration for the sidekick.
 (() => {
   window.hlx.initSidekick({
-    project: 'CCX',
+    project: 'Pfizer Video',
     outerHost: 'express-website--adobe.hlx.live',
-    host: 'www.adobe.com',
+    host: 'https://main--frank_pfizer_vid--cklein08.hlx.live/',
     byocdn: true,
     hlx3: true,
     pushDownSelector: '#feds-header',
