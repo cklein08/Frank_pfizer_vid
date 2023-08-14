@@ -1,0 +1,1111 @@
+<html>
+  <head>
+    <title>CC Express - Template Picker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link id="favicon" rel="icon" type="image/svg+xml" href="/express/icons/cc-express.svg">
+    <style>
+      body {
+        font-family: 'Adobe Clean', 'Trebuchet MS';
+        overflow: hidden;
+      }
+
+      main {
+        padding: 10px;
+        font-size: 1.3rem;
+        line-height: 1.2em;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+        margin: 0.2em 0;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+        margin: 0.2em 0;
+      }
+      
+      h3 {
+        font-size: 1rem;
+        margin: 0.2em 0;
+      }
+
+      .layout {
+        display: flex;
+        flex-direction: row;
+      }
+
+
+      main select {
+        font-size: 1rem;
+        border: none;
+        border-bottom: solid 1px grey;
+        padding-top: 5px;
+      }
+    
+      #search {
+        width: 65%;
+        font-family: 'Adobe Clean', 'Trebuchet MS';
+        font-size: 1.5rem;
+        border: none;
+        border-bottom: solid 1px grey;
+        padding-top: 5px;
+      }
+
+      #search.mandatory {
+        border-bottom: solid 2px #F25749;
+      }
+
+      #search.mandatory::placeholder {
+        color: red;
+      }
+
+      #select-all input {
+        margin-top: 10px;
+      }
+
+      #select-all input,
+      #select-all label {
+        padding: 10px 0;
+      }
+
+      main .filter {
+        width: 25%;
+        overflow-y: auto;
+        height: 90vh;
+      }
+
+      .filter .searchField {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Adobe Clean', 'Trebuchet MS';
+        font-size: 0.8rem;
+        padding-top: 15px;
+      }
+
+      #widthFrom, #widthTo,
+      #heightFrom, #heightTo {
+        font-family: 'Adobe Clean', 'Trebuchet MS';
+        font-size: 0.8rem;
+        width: 38px;
+      }
+
+      #ratiod, #ration {
+        font-family: 'Adobe Clean', 'Trebuchet MS';
+        font-size: 0.8rem;
+        width: 22px;
+      }
+
+      .twocolumns, .twocolumns20 {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .twocolumns > div {
+        flex: 1 0 50%;
+      }
+
+      .twocolumns20 > div {
+        flex-grow: 1;
+      }
+
+      .twocolumns20 > div:nth-child(odd) {
+        width: 20%;
+      }
+      
+      .twocolumns20 > div:nth-child(even) {
+        width: 80%;
+      }
+
+      .twocolumns > div.full {
+        flex: 1 0 100%;
+      }
+
+      main .content {
+        width: 75%;
+      }
+
+      main button {
+        border-radius: .5em;
+        padding: 2px 10px;
+        font-size: .8rem;
+      }
+
+      #results {
+        display: flex;
+        flex-wrap: wrap;
+        padding-bottom: 150px;
+        overflow-y: auto;
+        max-height: 70vh;
+      }
+
+      #results.has-result {
+        background-color: lightslategrey;
+        justify-content: center;
+      }
+
+      #results .no-result {
+        padding: 45px 0;
+      }
+
+      #results .template {
+        user-select: none;
+
+        margin: 10px;
+
+        max-width: 240px;
+        width: 240px; 
+        max-height: 350px;
+        height: 350px;
+        min-height: 350px;
+
+        align-self: flex-end;
+        background-color: #dce0e3;
+        margin: 15px 8px 65px 16px;
+        position: relative;
+      }
+
+      #results .template .thumbnail-container {
+        height: 100%;
+        position: relative;
+        width: 100%;
+        max-height: 250px;
+      }
+
+      #results .template img, #results .template video {
+        background: #dce0e3 center center/contain no-repeat;
+        height: 100%;
+        object-fit: contain;
+        width: 100%;
+        float: left;
+      }
+
+      #results .template a {
+        text-decoration: none;
+      }
+
+      #results .template .data {
+        display: flex;
+        flex-direction: column;
+
+        background-color: #fff;
+        border: solid 1px #dce0e3;
+        padding: 10px;
+
+      }
+
+      #results .template .data div {
+        text-align: left;
+        font-weight: 400;
+        font-size: 13px;
+        max-width: 218px;
+        max-height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #results .template .data div span {
+        margin-right: 4px;
+        font-weight: bold;
+      }
+
+      #results .premium {
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNDAuNTA5IiBoZWlnaHQ9IjU1LjgxOSIgdmlld0JveD0iMCAwIDQwLjUwOSA1NS44MTkiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDI9IjEiIHkyPSIxLjA0NyIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZmZGEwMCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2Y0YjMwMCIvPjwvbGluZWFyR3JhZGllbnQ+PGZpbHRlciBpZD0iYiIgeD0iMC4xOTUiIHk9IjEuNjg4IiB3aWR0aD0iNDAuMTMzIiBoZWlnaHQ9IjU0LjEzMSIgZmlsdGVyVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48ZmVPZmZzZXQgZHk9IjIiIGlucHV0PSJTb3VyY2VBbHBoYSIvPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjAuNSIgcmVzdWx0PSJjIi8+PGZlRmxvb2QgZmxvb2Qtb3BhY2l0eT0iMC4xNjEiLz48ZmVDb21wb3NpdGUgb3BlcmF0b3I9ImluIiBpbjI9ImMiLz48ZmVDb21wb3NpdGUgaW49IlNvdXJjZUdyYXBoaWMiLz48L2ZpbHRlcj48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMSwgMCwgMCwgMSwgMCwgMCkiIGZpbHRlcj0idXJsKCNiKSI+PHBhdGggZD0iTS0zNDQuMzM0LDEwODguOGwxMS41NDYsMy43MDhhNC4zMyw0LjMzLDAsMCwwLDIuNjUyLDBsMTEuNTQ2LTMuNzA4YTQuMzQyLDQuMzQyLDAsMCwxLDMuOS42NDEsNC40MTMsNC40MTMsMCwwLDEsMS43OTEsMy41NTN2MjcuNTE3YTE4LjYzOSwxOC42MzksMCwwLDEtMTguNTY2LDE4LjcxMmgwYTE4LjYzOSwxOC42MzksMCwwLDEtMTguNTY2LTE4LjcxMlYxMDkyLjk5YTQuNDEzLDQuNDEzLDAsMCwxLDEuNzkxLTMuNTUzQTQuMzQyLDQuMzQyLDAsMCwxLTM0NC4zMzQsMTA4OC44WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzUxLjcyIC0xMDg2LjkpIiBmaWxsPSJ1cmwoI2EpIi8+PC9nPjxwYXRoIGQ9Ik0tMzMwLjc3NCwxMTQxLjZhMjAuMjc2LDIwLjI3NiwwLDAsMS0yMC4yNTQtMjAuMjU1di0yOC4xM2E1LjU3MSw1LjU3MSwwLDAsMSwyLjMwNy00LjU0LDUuNTYxLDUuNTYxLDAsMCwxLDUuMDI3LS44MTdsMTEuODk0LDMuNzg5YTMuMzU0LDMuMzU0LDAsMCwwLDIuMDUsMGwxMS45LTMuNzg5YTUuNTYyLDUuNTYyLDAsMCwxLDUuMDI4LjgxNyw1LjU3LDUuNTcsMCwwLDEsMi4zMDcsNC41NHYyOC4xM0EyMC4yNzYsMjAuMjc2LDAsMCwxLTMzMC43NzQsMTE0MS42Wm0tMTQuNjM5LTUxLjc2YTMuMzM4LDMuMzM4LDAsMCwwLTEuOTguNjU0LDMuMzQxLDMuMzQxLDAsMCwwLTEuMzg0LDIuNzI1djI4LjEzMWExOC4wMjQsMTguMDI0LDAsMCwwLDE4LDE4LDE4LjAyNCwxOC4wMjQsMCwwLDAsMTgtMTh2LTI4LjEzMWEzLjM0NCwzLjM0NCwwLDAsMC0xLjM4NC0yLjcyNSwzLjMzOSwzLjMzOSwwLDAsMC0zLjAxOC0uNDkybC0xMS44OTQsMy43OWE1LjU4MSw1LjU4MSwwLDAsMS0zLjQxNiwwbC0xMS45LTMuNzlhMy40MTUsMy40MTUsMCwwLDAtMS4wMzUtLjE1N1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM1MS4wMjggLTEwODcuNTgyKSIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==");
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: block;
+        height: 27px;
+        position: absolute;
+        right: 4px;
+        top: -4px;
+        width: 20px;
+      }
+
+      #results .selected {
+        opacity: 0.2;
+        background-color: lightgrey;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #selectionPanel {
+        position: fixed;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-items: center;
+        bottom: 0;
+        background-color: lightsalmon;
+        /* padding-bottom: 20px; */
+        width: 100%;
+        box-sizing: border-box;
+        left: 0;
+        user-select: none;
+        padding: 10px;
+        box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      #selectionPanel.hidden {
+        display: none;
+      }
+
+      #selectionPanel button:disabled {
+        background-color: #ccc;
+        color: grey;
+      }
+
+      #selectionPanel button {
+        background-color: #F25749;
+        color: white;
+        white-space: nowrap;
+        align-self: flex-end;
+        border: 1px solid white;
+      }
+
+      #selectionPanel input[type="text"] {
+        width: 150px;
+        padding: 2px 4px;
+      }
+
+      #copyOptions,
+      #selectionPanel button {
+        align-self: flex-end;
+        margin: auto 20px auto 0;
+        font-size: 13px;
+      }
+
+      #copyOptions {
+        max-width: 152px;
+      }
+
+      #selectedList {
+        display: flex;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        min-height: 120px;
+        max-height: 30vh;
+        overflow-y: auto;
+      }
+
+      #selectedList .more {
+        margin: auto 20px;
+        font-size: 1rem; 
+        font-style: italic;
+        opacity: 0.5;
+      }
+
+      #selectionPanel .selectedTemplate {
+        user-select: none;
+        margin: 10px;
+        max-width: 100px;
+        width: 100x;
+        max-height: 100px;
+        height: 100px;
+        min-height: 100px;
+        align-self: flex-end;
+        background-color: #dce0e3;
+        position: relative;
+      }
+
+      #selectionPanel .selectedTemplate img, #selectionPanel .selectedTemplate video {
+        background: #dce0e3 center center/contain no-repeat;
+        height: 100%;
+        object-fit: contain;
+        width: 100%;
+        float: left;
+      }
+
+      #selectionPanel .premium {
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNDAuNTA5IiBoZWlnaHQ9IjU1LjgxOSIgdmlld0JveD0iMCAwIDQwLjUwOSA1NS44MTkiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDI9IjEiIHkyPSIxLjA0NyIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZmZGEwMCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2Y0YjMwMCIvPjwvbGluZWFyR3JhZGllbnQ+PGZpbHRlciBpZD0iYiIgeD0iMC4xOTUiIHk9IjEuNjg4IiB3aWR0aD0iNDAuMTMzIiBoZWlnaHQ9IjU0LjEzMSIgZmlsdGVyVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48ZmVPZmZzZXQgZHk9IjIiIGlucHV0PSJTb3VyY2VBbHBoYSIvPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjAuNSIgcmVzdWx0PSJjIi8+PGZlRmxvb2QgZmxvb2Qtb3BhY2l0eT0iMC4xNjEiLz48ZmVDb21wb3NpdGUgb3BlcmF0b3I9ImluIiBpbjI9ImMiLz48ZmVDb21wb3NpdGUgaW49IlNvdXJjZUdyYXBoaWMiLz48L2ZpbHRlcj48L2RlZnM+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMSwgMCwgMCwgMSwgMCwgMCkiIGZpbHRlcj0idXJsKCNiKSI+PHBhdGggZD0iTS0zNDQuMzM0LDEwODguOGwxMS41NDYsMy43MDhhNC4zMyw0LjMzLDAsMCwwLDIuNjUyLDBsMTEuNTQ2LTMuNzA4YTQuMzQyLDQuMzQyLDAsMCwxLDMuOS42NDEsNC40MTMsNC40MTMsMCwwLDEsMS43OTEsMy41NTN2MjcuNTE3YTE4LjYzOSwxOC42MzksMCwwLDEtMTguNTY2LDE4LjcxMmgwYTE4LjYzOSwxOC42MzksMCwwLDEtMTguNTY2LTE4LjcxMlYxMDkyLjk5YTQuNDEzLDQuNDEzLDAsMCwxLDEuNzkxLTMuNTUzQTQuMzQyLDQuMzQyLDAsMCwxLTM0NC4zMzQsMTA4OC44WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzUxLjcyIC0xMDg2LjkpIiBmaWxsPSJ1cmwoI2EpIi8+PC9nPjxwYXRoIGQ9Ik0tMzMwLjc3NCwxMTQxLjZhMjAuMjc2LDIwLjI3NiwwLDAsMS0yMC4yNTQtMjAuMjU1di0yOC4xM2E1LjU3MSw1LjU3MSwwLDAsMSwyLjMwNy00LjU0LDUuNTYxLDUuNTYxLDAsMCwxLDUuMDI3LS44MTdsMTEuODk0LDMuNzg5YTMuMzU0LDMuMzU0LDAsMCwwLDIuMDUsMGwxMS45LTMuNzg5YTUuNTYyLDUuNTYyLDAsMCwxLDUuMDI4LjgxNyw1LjU3LDUuNTcsMCwwLDEsMi4zMDcsNC41NHYyOC4xM0EyMC4yNzYsMjAuMjc2LDAsMCwxLTMzMC43NzQsMTE0MS42Wm0tMTQuNjM5LTUxLjc2YTMuMzM4LDMuMzM4LDAsMCwwLTEuOTguNjU0LDMuMzQxLDMuMzQxLDAsMCwwLTEuMzg0LDIuNzI1djI4LjEzMWExOC4wMjQsMTguMDI0LDAsMCwwLDE4LDE4LDE4LjAyNCwxOC4wMjQsMCwwLDAsMTgtMTh2LTI4LjEzMWEzLjM0NCwzLjM0NCwwLDAsMC0xLjM4NC0yLjcyNSwzLjMzOSwzLjMzOSwwLDAsMC0zLjAxOC0uNDkybC0xMS44OTQsMy43OWE1LjU4MSw1LjU4MSwwLDAsMS0zLjQxNiwwbC0xMS45LTMuNzlhMy40MTUsMy40MTUsMCwwLDAtMS4wMzUtLjE1N1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM1MS4wMjggLTEwODcuNTgyKSIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==");
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: block;
+        height: 18px;
+        position: absolute;
+        right: 1px;
+        top: -2px;
+        width: 16px;
+      }
+
+    </style>
+    <script src="fraction.min.js"></script>
+    <script>
+      const maxSelectedDrawn = 99;
+      const templateSelection = [];
+      const allResults = [];
+      let selectedList;
+
+      const unselect = (id) => {
+        const i = templateSelection.findIndex((t) => t.branchURL === id);
+        if (i < 0) {
+          // not selected
+          return;
+        }
+        templateSelection.splice(i, 1);
+        const elem = document.querySelector(`#results [data-id="${id}"]`);
+        if (elem) {
+          elem.classList.remove('selected');
+        }
+        drawSelection();
+      }
+
+      const select = (template) => {
+        if (templateSelection.findIndex((t) => t.branchURL === template.branchURL) >= 0) {
+          // already selected
+          return;
+        }
+        templateSelection.push(template);
+        const elem = document.querySelector(`#results [data-id="${template.branchURL}"]`);
+        if (elem) {
+          elem.classList.add('selected');
+        }
+        drawSelection();
+      }
+
+      const selectAll = () => {
+        document.querySelector('#select-all-checkbox').checked = true;
+        asyncForEach(
+          allResults,
+          (template) => {
+            if (templateSelection.findIndex((t) => t.branchURL === template.branchURL) >= 0) {
+              // already selected
+              return;
+            }
+            templateSelection.push(template);
+            const elem = document.querySelector(`#results [data-id="${template.branchURL}"]`);
+            if (elem) {
+              elem.classList.add('selected');
+            }
+          },
+          () => drawSelection(),
+        );
+      }
+
+      const unselectAll = () => {
+        document.querySelector('#select-all-checkbox').checked = false;
+        templateSelection.splice(0);
+        asyncForEach(
+          document.querySelectorAll('#results .template.selected'),
+          (elem) => elem.classList.remove('selected'),
+          drawSelection(),
+        );
+      }
+
+      const toggleSelectAll = () => {
+        const cb = document.querySelector('#select-all-checkbox');
+        if (cb.checked) {
+          selectAll();
+        } else {
+          unselectAll();
+        }
+      };
+
+      const scrollList = () => selectedList.scrollBy(0, 120);
+
+      const drawSelection = () => {
+        if (!selectedList) selectedList = document.getElementById('selectedList');
+        let html = '';
+        templateSelection.forEach((t, i) => {
+          if (i >= maxSelectedDrawn) return;
+          if (t.animated) {
+            html += `<div class="selectedTemplate" onclick="unselect('${t.branchURL}')">
+                <video autoplay muted loop playsinline autoplay="true" loop="true" poster="${t.thumbnail}" onload="scrollList()">
+                  <source src="${t.asset}" type="video/mp4">
+                </video>`;
+          } else {
+            html += `<div class="selectedTemplate" onclick="unselect('${t.branchURL}')">
+                <img src="${t.thumbnail}" onload="scrollList()">`;
+          }
+          if (t.premium) {
+            html += `<div class="premium" title="Premium"></div>`;
+          }
+          html += `</div>`;
+        });
+        if (templateSelection.length > maxSelectedDrawn) {
+          html += `<span class="more">and ${templateSelection.length - maxSelectedDrawn} more ...<br><a href="#" onclick="unselectAll()">clear all</a></span>`;
+        }
+
+        const selectionPanel = document.getElementById('selectionPanel');
+        if (html === '') {
+          selectionPanel.classList.add('hidden');
+          selectedList.innerHTML = html;
+        } else {
+          selectedList.innerHTML = html;
+          selectionPanel.classList.remove('hidden');
+        }
+
+        const copySelectionButton = document.getElementById('copyselection');
+        copySelectionButton.disabled = templateSelection.length <= 0;
+      }
+
+      const API_ROOT = 'https://spark-search.adobe.io';
+
+      async function asyncForEach(array, forEach, callback) {
+        for (let index = 0; index < array.length; index++) {
+          await forEach(array[index], index, array);
+        }
+        if (callback) callback();
+      }
+
+      const resultToTemplate = (t) => {
+        let asset = t.rendition.href
+          .replace('\{format\}', 'jpg')
+          .replace('\{dimension\}', 'width')
+          .replace('\{size\}', t.rendition.maxWidth || 1200);
+        if (t.animated) {
+          const animationRoot = t.rendition.href.split('rendition')[0];
+          const version = t.rendition.href.split('/version/')[1].split('/')[0];
+          asset = animationRoot + "dcx/" + t.id + "/content/videoRendition.mp4/version/" + version;
+        }
+        const thumbnail = t.rendition.href
+          .replace('\{format\}', 'jpg')
+          .replace('\{dimension\}', 'width')
+          .replace('\{size\}', 240);
+
+        const f = new Fraction(t.rendition.maxWidth / t.rendition.maxHeight).simplify(0.008);
+        const ratio = `${f.n}:${f.d}`
+        const size = `${ratio} (${t.rendition.maxWidth} x ${t.rendition.maxHeight})`;
+
+        const getFromArray = (obj, name, index) => {
+          const a = obj[name];
+          if (a && a.length > 0) {
+            if (!isNaN(index)) {
+              return a[index];
+            }
+            return a.join(', ');
+          }
+          return 'None';
+        };
+
+        return {
+          asset,
+          thumbnail,
+          title: t.title,
+          branchURL: t.branchURL,
+          animated: t.animated,
+          premium: t.premium,
+          remixCount: t.remixCount,
+          created: t.created ? t.created.substring(0, t.created.indexOf('T')) : 'Unknown',
+          size,
+          category: getFromArray(t, 'categories', 0),
+          categories: getFromArray(t, 'categories'),
+          keywords: getFromArray(t, 'topics'),
+          usecase: getFromArray(t, 'tasks'),
+          ratio
+        };
+      };
+
+      let isSearchRunning = false;
+      let stopSearch = false;
+      const search = async () => {
+        if (isSearchRunning) {
+          // wait to stop the search first
+          stopSearch = true;
+          window.setTimeout(() => { search(); }, 200);
+          return;
+        }
+
+        stopSearch = false;
+        isSearchRunning = true;
+        const resultContainer = document.querySelector('#results');
+        resultContainer.innerHTML = '';
+        resultContainer.classList.remove('has-result');
+
+        const searchInput = document.getElementById('search');
+        const sort = document.querySelector('[name="sort"]:checked');
+        const types = document.querySelectorAll('[name="type"]:checked');
+        let type = null;
+        if (types && types.length === 1) {
+          type = types[0].value;
+        }
+
+        const animateds = document.querySelectorAll('[name="animated"]:checked');
+        let animated = null;
+        if (animateds && animateds.length === 1) {
+          animated = animateds[0].value;
+        }
+
+        const locales = document.querySelectorAll('[name="locale"]:checked');
+        let locale = [];
+        if (locales && locales.length > 0 && locales.length < 15) {
+          locales.forEach(l => {
+            locale.push(l.value);
+          });
+        }
+
+        const widthFrom = document.getElementById('widthFrom').value;
+        const widthTo = document.getElementById('widthTo').value;
+        const heightFrom = document.getElementById('heightFrom').value;
+        const heightTo = document.getElementById('heightTo').value;
+        const ration = document.getElementById('ration').value;
+        const ratiod = document.getElementById('ratiod').value;
+
+        if (window.history.pushState) {
+          const searchParams = new URLSearchParams(window.location.search);
+          searchParams.set('q', searchInput.value);
+          searchParams.set('sort', sort.value);
+
+          const setParam = (sp, name, value) => {
+            if (value) {
+              sp.set(name, value);
+            } else {
+              sp.delete(name);
+            }  
+          }
+
+          setParam(searchParams, 'type', type);
+          setParam(searchParams, 'animated', animated);
+          setParam(searchParams, 'widthFrom', widthFrom);
+          setParam(searchParams, 'widthTo', widthTo);
+          setParam(searchParams, 'heightFrom', heightFrom);
+          setParam(searchParams, 'heightTo', heightTo);
+          setParam(searchParams, 'ration', ration);
+          setParam(searchParams, 'ratiod', ratiod);
+          
+          if (locale.length > 0) {
+            searchParams.set('locale', locale.join(','));
+          } else {
+            searchParams.delete('locale');
+          }
+
+          const url = new URL(window.location.href);
+          url.search = searchParams.toString();
+          window.history.pushState({
+            path: url.href
+          }, '', url.href);
+        }
+
+        let q = '';
+        let orderBy = '-created';
+        let branchURL = '';
+
+        searchInput.value.split(' ').forEach(s => {
+          try {
+            const link = new URL(s);
+            branchURL += `${link.pathname.substring(1)} `;
+          } catch(e) {
+            q += `${s} `;
+          }
+        });
+
+        if (!q.trim()) {
+          searchInput.classList.add('mandatory');
+          isSearchRunning = false;
+          return;
+        }
+
+        switch (sort.value) {
+          case 'oldest': orderBy = 'created'; break;
+          case 'mostremixed': orderBy = '-remixCount,-created'; break;
+          case 'leastremixed': orderBy = 'remixCount'; break;
+          default: orderBy = '-created';
+        };
+
+        let filters = `branchURL:${branchURL || '*'}`;
+
+        switch(type) {
+          case 'premium': filters = `${filters} AND premium:(true)`; break;
+          case 'free': filters = `${filters} AND premium:(false)`; break;
+        }
+        
+        switch(animated) {
+          case 'animated': filters = `${filters} AND animated:(true)`; break;
+          case 'still': filters = `${filters} AND animated:(false)`; break;
+        }
+
+        if (locale.length > 0) {
+          filters = `${filters} AND locales:("${locale.join('*" OR "')}*")`;
+        }
+
+        if (widthFrom || widthTo) {
+          filters = `${filters} AND (rendition.maxWidth:[${widthFrom || '*'} TO ${widthTo || '*'}])`;
+        }
+
+        if (heightFrom || heightTo) {
+          filters = `${filters} AND (rendition.maxHeight:[${heightFrom || '*'} TO ${heightTo || '*'}])`;
+        }
+
+        const params = {
+          q,
+          filters,
+          orderBy,
+          limit: 100,
+        };
+
+        const options = { 
+          headers: { 
+            'x-api-key': 'Helix_Spark_Content_Search'
+          },
+        };
+
+        const urlParams = new URLSearchParams(Object.entries(params));
+
+        let res = await fetch(`${API_ROOT}/v2/content?${urlParams}`, options);
+
+        let json = await res.json();
+        let results = json && json._embedded && json._embedded.results ? json._embedded.results : [];
+
+        allResults.splice(0); // reset all results
+        let duplicates = 0;
+        const searchTotal = json._embedded.total;
+        let total = 0;
+
+        while (results.length > 0) {
+          if (stopSearch) {
+            results = [];
+            break;
+          }
+          await asyncForEach(results, async t => {
+            if (stopSearch) {
+              results = [];
+              return;
+            }
+
+            const tobj = resultToTemplate(t);
+
+            // client side filtering
+            if (ration || ratiod) {
+              const regex = new RegExp(`^${ration || '.*'}\:${ratiod || '.*$'}`);
+              if (!tobj.ratio.match(regex)) return;
+            }
+
+            // API seems to return duplicates
+            if (allResults.find((tmplt) => tmplt.branchURL ===  tobj.branchURL)) {
+              return;
+            } else {
+              allResults.push(tobj);
+            }
+
+            total++;
+
+            const template = document.createElement('div');
+            template.classList.add('template');
+            template.setAttribute('data-id', tobj.branchURL);
+
+            if (tobj.animated) {
+              template.innerHTML += `
+                <div class="thumbnail-container">
+                    <video autoplay muted loop playsinline autoplay="true" loop="true" poster="${tobj.thumbnail}">
+                  <source src="${tobj.asset}" type="video/mp4">
+                </video>
+                </div>`;
+            } else {
+              template.innerHTML += `
+                <div class="thumbnail-container">
+                  <img loading="lazy" src="${tobj.thumbnail}">
+                </div>`;
+            }
+            template.innerHTML += `<div class="data">
+              <div class="title" title="${tobj.title}"><span>Title:</span><a href="${tobj.branchURL}" target="_blank">${tobj.title}</a></div>
+              <div class="size" title="${tobj.size}"><span>Size:</span>${tobj.size}</div>
+              <div class="category" title="${tobj.categories}"><span>Category:</span>${tobj.category}</div>
+              <div class="keywords" title="${tobj.keywords}"><span>Keywords:</span>${tobj.keywords}</div>
+              <div class="usecase" title="${tobj.usecase}"><span>Use Case:</span>${tobj.usecase}</div>
+              <div class="created" title="${tobj.created}"><span>Created:</span>${tobj.created}</div>
+              <div class="remix" title="${tobj.remixCount}"><span>Remix count:</span>${tobj.remixCount}</div>
+            </div>`;
+
+            if (tobj.premium) {
+              template.innerHTML += `<div class="premium" title="Premium"></div>`;
+            }
+
+            template.addEventListener('click', () => {
+              if (template.classList.contains('selected')) {
+                unselect(tobj.branchURL);
+              } else {
+                select(tobj);
+              }
+            });
+
+            resultContainer.append(template);
+          });
+
+          if (!stopSearch && json._links && json._links.next && json._links.next.href) {
+            res = await fetch(`${API_ROOT}${json._links.next.href}`, options);
+
+            json = await res.json();
+            results = json && json._embedded && json._embedded.results ? json._embedded.results : [];
+          } else {
+            results = [];
+          }
+        }
+
+        const selectAll = document.querySelector('#select-all');
+        if (total > 0) {
+          selectAll.classList.remove('hidden');
+          resultContainer.classList.add('has-result');
+        } else {
+          selectAll.classList.add('hidden');
+          resultContainer.innerHTML = '<div class="no-result">No template matches your search criteria.</div>'
+        }
+
+        isSearchRunning = false;
+        console.log(`Showing a total of ${total}/${searchTotal} templates`);
+      }
+
+      const IMG_EXPORT_WIDTH = 180;
+
+      const togglePremium = () => {
+        const cb = document.getElementById('copy-premium');
+        const th = document.querySelector('#copybuffer thead th');
+        th.colSpan += cb.checked ? 1 : -1;
+      };
+
+      const insert = (template, premium) => {
+        const tbody = document.querySelector('#copybuffer tbody');
+        
+        const row = document.createElement('tr');
+        tbody.append(row);
+
+        const imgCell = document.createElement('td');
+        imgCell.style.border = '1px solid black';
+        imgCell.style.textAlign = 'center';
+        imgCell.style.verticalAlign = 'middle';
+
+        row.append(imgCell);
+        const img = document.createElement('img');
+        img.src = template.animated ? template.thumbnail : template.asset;
+        img.alt = template.title;
+        img.width = IMG_EXPORT_WIDTH;
+
+        imgCell.append(img);
+
+        if (template.animated) {
+          imgCell.append(document.createElement('br'));
+          const link = document.createElement('a');
+          link.href = template.asset;
+          link.innerHTML = 'Animation';
+          imgCell.append(link);
+        }
+
+        const linkCell = document.createElement('td');
+        linkCell.style.border = '1px solid black';
+        linkCell.style.textAlign = 'left';
+        linkCell.style.verticalAlign = 'middle';
+        row.append(linkCell);
+        const link = document.createElement('a');
+        link.href = template.branchURL;
+        link.textContent = document.querySelector('#edittext').value || 'Edit this template';
+        linkCell.append(link);
+
+        if (premium) {
+          const premiumCell = document.createElement('td');
+          premiumCell.style.border = '1px solid black';
+          premiumCell.style.textAlign = 'left';
+          premiumCell.style.verticalAlign = 'middle';
+          premiumCell.textContent = template.premium ? 'premium' : '';
+          row.append(premiumCell);
+        }
+
+        img.height = (IMG_EXPORT_WIDTH / img.naturalWidth) * img.naturalHeight;
+      }
+
+      const copyHTMLToClipboard = (html) => {
+        const callback = (e) => {
+          e.clipboardData.setData('text/html', html);
+          e.clipboardData.setData('text/plain', html);
+          e.preventDefault();
+        };
+
+        document.addEventListener('copy', callback);
+        document.execCommand('copy');
+        document.removeEventListener('copy', callback);
+      };
+
+      const clear = () => {
+        const tbody = document.querySelector('#copybuffer tbody');
+        tbody.innerHTML = '';
+      }
+
+      const copy = () => {
+
+        clear();
+
+        const premium = document.getElementById('copy-premium').checked;
+        templateSelection.forEach((t) => insert(t, premium));
+
+        const div = document.getElementById('copybuffer');
+        copyHTMLToClipboard(div.innerHTML);
+      }
+
+      const searchOnReturn = (event) => {
+        if (event.target.classList.contains('mandatory')) {
+          event.target.classList.remove('mandatory');
+        }
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          search();
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main>
+      <div class="layout">
+        <div class="filter">
+          <h2>Filters</h2>
+          <div>
+            <input type="text" typeautocomplete="off" placeholder="Type to search" id="search" onkeyup="searchOnReturn(event)">
+            <button onclick="search()">Search</button>
+          </div>
+          <div class="searchField">
+            <div>
+              <input type="radio" id="newest" name="sort" value="newest" checked>
+              <label for="newest">Newest to Oldest</label>
+            </div>
+            <div>
+              <input type="radio" id="oldest" name="sort" value="oldest">
+              <label for="oldest">Oldest to Newest</label>
+            </div>
+            <div>
+              <input type="radio" id="mostremixed" name="sort" value="mostremixed">
+              <label for="mostremixed">Most Remixed</label>
+            </div>
+            <div>
+              <input type="radio" id="leastremixed" name="sort" value="leastremixed">
+              <label for="leastremixed">Least Remixed</label>
+            </div>
+          </div>
+          <div class="twocolumns">
+            <div class="searchField">
+              <h3>Type</h3>
+              <div>
+                <input type="checkbox" id="premium" name="type" value="premium" checked>
+                <label for="premium">Premium</label>
+              </div>
+              <div>
+                <input type="checkbox" id="free" name="type" value="free" checked>
+                <label for="free">Free</label>
+              </div>
+            </div>
+            <div class="searchField">
+              <h3>Animated</h3>
+              <div>
+                <input type="checkbox" id="animated" name="animated" value="animated" checked>
+                <label for="animated">Animated</label>
+              </div>
+              <div>
+                <input type="checkbox" id="still" name="animated" value="still" checked>
+                <label for="still">Still</label>
+              </div>
+            </div>
+          </div>
+          <div class="searchField">
+            <h3>Locales</h3>
+            <div class="twocolumns">
+              <div class="full">
+                <input type="checkbox" id="localeToggle" name="localeToggle" value="localeToggle" checked>
+                <label for="localeToggle">Toggle all</label>
+              </div>
+              <div>
+                <input type="checkbox" id="en" name="locale" value="en" checked>
+                <label for="en">English</label>
+              </div>
+              <div>
+                <input type="checkbox" id="fr" name="locale" value="fr" checked>
+                <label for="fr">French</label>
+              </div>
+              <div>
+                <input type="checkbox" id="de" name="locale" value="de" checked>
+                <label for="de">German</label>
+              </div>
+              <div>
+                <input type="checkbox" id="it" name="locale" value="it" checked>
+                <label for="it">Italian</label>
+              </div>
+              <div>
+                <input type="checkbox" id="pt" name="locale" value="pt" checked>
+                <label for="pt">Portuguese</label>
+              </div>
+              <div>
+                <input type="checkbox" id="es" name="locale" value="es" checked>
+                <label for="es">Spanish</label>
+              </div>
+              <div>
+                <input type="checkbox" id="nl" name="locale" value="nl" checked>
+                <label for="nl">Netherlands</label>
+              </div>
+              <div>
+                <input type="checkbox" id="fi" name="locale" value="fi" checked>
+                <label for="fi">Finnish</label>
+              </div>
+              <div>
+                <input type="checkbox" id="da" name="locale" value="da" checked>
+                <label for="da">Danish</label>
+              </div>
+              <div>
+                <input type="checkbox" id="nb" name="locale" value="nb" checked>
+                <label for="nb">Norwegian - Bokmal</label>
+              </div>
+              <div>
+                <input type="checkbox" id="sv" name="locale" value="sv" checked>
+                <label for="sv">Swedish - Sweden</label>
+              </div>
+              <div>
+                <input type="checkbox" id="ja" name="locale" value="ja" checked>
+                <label for="ja">Japanese</label>
+              </div>
+              <div>
+                <input type="checkbox" id="zh-hans" name="locale" value="zh-hans" checked>
+                <label for="zh-hans">Chinese (Simplified)</label>
+              </div>
+              <div>
+                <input type="checkbox" id="zh-hant" name="locale" value="zh-hant" checked>
+                <label for="zh-hant">Chinese (Traditional)</label>
+              </div>
+              <div>
+                <input type="checkbox" id="ko" name="locale" value="ko" checked>
+                <label for="ko">Korean</label>
+              </div>
+            </div>
+          </div>
+          <div class="searchField">
+            <h3>Size</h3>
+            <div class="twocolumns20">
+              <div>Width</div>
+              <div>from <input type="text" id="widthFrom" name="widthFrom"> to <input type="text" id="widthTo" name="widthTo"></div>
+              <div>Height</div>
+              <div>from <input type="text" id="heightFrom" name="heightFrom"> to <input type="text" id="heightTo" name="heightTo"></div>
+              <div>Ratio</div>
+              <div><input type="text" id="ration" name="ratiod"> : <input type="text" id="ratiod" name="ratiod"></div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <h1>Pick your templates</h1>
+          <div id="select-all" class="hidden">
+            <input id="select-all-checkbox" type="checkbox" onclick="toggleSelectAll()">
+            <label for="select-all-checkbox" onclick="toggleSelectAll()">select all</label>
+          </div>
+          <div id="results"></div>
+        </div>
+      </div>
+      <div id="selectionPanel" class="hidden">
+        <div id="selectedList"></div>
+        <div id="copyOptions">
+          <input type="text" id="edittext" placeholder="Optional edit text">
+          <input id="copy-premium" type="checkbox" checked="true" onclick="togglePremium()">
+          <label for="copy-premium" onclick="togglePremium()">copy premium info</label>
+        </div>
+        <button type="button" onclick="copy()" id="copyselection" disabled="true">Copy Selection</button>
+      </div>
+    </main>
+    <div class="hidden" id="copybuffer">
+      <table cellpadding="0" cellspacing="0" style="border: 1px solid black; border-spacing: 0; width: 100%">
+        <thead>
+            <tr>
+              <th style="border: 1px solid black; background-color: rgb(211, 211, 211);" colspan="3">Template List</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const localeToggle = document.getElementById('localeToggle');
+        localeToggle.addEventListener('click', () => {
+          const locales = document.querySelectorAll('[name="locale"]');
+          locales.forEach(l => {
+            l.checked = localeToggle.checked;
+          });
+          search();
+        });
+
+        const sorts = document.querySelectorAll('[name="sort"]');
+        const types = document.querySelectorAll('[name="type"]');
+        const animateds = document.querySelectorAll('[name="animated"]');
+        const locales = document.querySelectorAll('[name="locale"]');
+
+        Array.from(sorts)
+          .concat(Array.from(types))
+          .concat(Array.from(animateds))
+          .concat(Array.from(locales))
+          .forEach((i) => {
+            i.addEventListener('change', search);
+          });
+
+        const widthFrom = document.getElementById('widthFrom');
+        const widthTo = document.getElementById('widthTo');
+        const heightFrom = document.getElementById('heightFrom');
+        const heightTo = document.getElementById('heightTo');
+        const ration = document.getElementById('ration');
+        const ratiod = document.getElementById('ratiod');
+
+        widthFrom.addEventListener('change', search);
+        widthTo.addEventListener('change', search);
+        heightFrom.addEventListener('change', search);
+        heightTo.addEventListener('change', search);
+        ration.addEventListener('change', search);
+        ratiod.addEventListener('change', search);
+        
+        const params = new URLSearchParams(window.location.search);
+        const sort = params.get('sort');
+        if (sort) {
+          const input = document.getElementById(sort);
+          if (input) {
+            input.checked = true;
+          }
+        }
+
+        const type = params.get('type');
+        if (type) {
+          types.forEach(t => {
+            if (t.value === type) {
+              t.checked = true;
+            } else {
+              t.checked = false;
+            }
+          });
+        }
+
+        const animated = params.get('animated');
+        if (animated) {
+          animateds.forEach(t => {
+            if (t.value === animated) {
+              t.checked = true;
+            } else {
+              t.checked = false;
+            }
+          });
+        }
+
+        const locale = params.get('locale');
+        if (locale) {
+          const ls = locale.split(',');
+          locales.forEach(t => {
+            if (ls.indexOf(t.value) !== -1) {
+              t.checked = true;
+            } else {
+              t.checked = false;
+            }
+          });
+        }
+
+        const setInputValue = (ps, name, input) => {
+          const p = ps.get(name);
+          if (p) {
+            input.value = p;
+          }
+        }
+
+        setInputValue(params, 'widthFrom', widthFrom);
+        setInputValue(params, 'widthTo', widthTo);
+        setInputValue(params, 'heightFrom', heightFrom);
+        setInputValue(params, 'heightTo', heightTo);
+        setInputValue(params, 'ration', ration);
+        setInputValue(params, 'ratiod', ratiod);
+
+        const q = params.get('q');
+        if (q) {
+          document.getElementById('search').value = q;
+          search();
+        }
+      });
+    </script>
+  </body>
+</html>
